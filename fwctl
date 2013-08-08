@@ -1,0 +1,42 @@
+#!/bin/sh
+# OpenBSD pf control script
+# nick@dischord.org
+
+case "$1" in
+
+loglast)	tcpdump -n -e -ttt -v -r /var/log/pflog | tail -n 20
+		;;
+
+logmon)		tcpdump -e -n -ttt -v -i pflog0
+		;;
+
+up)		pfctl -f /etc/pf.conf
+		echo "* Firewall ENABLED / Rules RELOADED *"
+		;;
+
+down)		pfctl -f /etc/pf.conf.down
+		echo "* Firewall DISABLED *"
+		;;
+
+rules)		pfctl -sr | more
+		;;
+
+states)		pfctl -ss | more
+		;;
+
+allstates)	pfctl -sa | more
+		;;
+		
+status)		pfctl -sr -v | more
+		;;
+
+altq)		pfctl -vsq
+		;;
+
+altqstat)	pfctl -vvsq
+		;;
+
+*)		echo "Usage: $0 loglast | logmon | up | down | rules | states | status | altq | altqstat"
+
+esac
+exit 0
