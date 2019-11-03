@@ -1,0 +1,5 @@
+docker run -it --rm --name dcos -e TERM \
+        -v $HOME/.dcos:/home/user/.dcos:rw \
+        -v $HOME/Temp:/home/user/tmp:ro \
+        dcoscli:latest "$@"
+
