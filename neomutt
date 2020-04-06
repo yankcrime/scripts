@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+docker run -it --rm --name mutt-$(date +%s) -e TERM \
+	-v $HOME/.mutt:/home/user/.mutt:rw \
+	-v $HOME/.local/share/nvim/site/autoload:/home/user/.local/share/nvim/site/autoload:ro \
+	-v $HOME/.config/nvim:/home/user/.config/nvim:ro \
+	-v $HOME/.msmtprc:/home/user/.msmtprc:ro \
+	-v $HOME/.signature:/home/user/.signature:ro \
+	-v /etc/localtime:/etc/localtime:ro \
+	neomutt:20200320
