@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+SERVER=$1
+FLAVOR=$2
+IMAGE="openSUSE Leap 15.3 JeOS"
+KEY="deadline"
+SG="a7bbb3f0-5995-4c19-af5e-735d0a112e02"
+NETWORK="direct_internet"
+USERDATA="/home/nick/Sync/src/rancher/scratch/guestinfo/userdata.yaml"
+
+echo "Creating ${SERVER}, please wait 🐌"
+openstack server create --flavor $FLAVOR \
+          --image "${IMAGE}" \
+          --key $KEY \
+          --security-group $SG \
+          --network $NETWORK \
+          --config-drive True \
+          --user-data ${USERDATA} \
+          $SERVER --wait
+
+echo -n "IP of ${SERVER} is: "
+openstack server show $SERVER -c addresses -f json | jq -r ".addresses.${NETWORK}|@tsv" | tr -d \n

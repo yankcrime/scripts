@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+SERVER=$1
+NETWORK="direct_internet"
+
+openstack server show $SERVER -c addresses -f json | jq -r ".addresses.${NETWORK}|@tsv" | tr -d \n
